@@ -1,3 +1,6 @@
+This project is one of my earliest and was created using the template code from Clement Mihailescu's Youtube video. The concept is very simple, a series of bars of varying length is generated randomly and in a random order. By pushing the different buttons labelled with various sorting algorithms, the bars are arranged from smallest to largest using the aforementioned sorting algorithms. The purpose of this basic project is not only to show the process of these sorting algorithms, but also so that users can see how much faster some sorting algorithms are than others. For example, quick sort is noticeably faster than bubble sort.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
