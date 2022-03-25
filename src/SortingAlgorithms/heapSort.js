@@ -1,7 +1,6 @@
 export function getHeapSortAnimations(array){
     const animations = [];
     if (array.length <= 1) return array;
-    const auxArray = array.slice();
     let n = array.length;
     // Build heap (rearrange array)
     for (let i = Math.floor(n / 2) - 1; i >= 0; i--)
@@ -37,7 +36,7 @@ function heapify(array, n, i, animations){
         largest = r;
  
     // If largest is not root
-    if (largest != i) {
+    if (largest !== i) {
         animations.push([i, largest]);
         animations.push([i, largest]);
         animations.push([i, array[largest], largest, array[i]]);

@@ -8,7 +8,7 @@ import {getSelectionSortAnimations} from '../SortingAlgorithms/selectionSort.js'
 import './SortingVisualizer.css';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 1;
+const ANIMATION_SPEED_MS = 100;
 
 // Change this value for the number of bars (value) in the array.
 const NUMBER_OF_ARRAY_BARS = 100;
@@ -170,47 +170,7 @@ export default class SortingVisualizer extends React.Component{
         const animations = getInsertionSortAnimations(this.state.array);
         for (let i = 0; i < animations.length; i++){
             const arrayBars = document.getElementsByClassName('array-bar');
-            if(animations[i][0]==='color-on'){
-                const [message, barOneIdx] = animations[i];
-                const barOneStyle = arrayBars[barOneIdx].style;
-                const color = SECONDARY_COLOR;
-                setTimeout(() => {
-                    barOneStyle.backgroundColor = color;
-                }, i * ANIMATION_SPEED_MS);
-            }
-            else if(animations[i][0] === 'color-off'){
-                const [message, barOneIdx] = animations[i];
-                const barOneStyle = arrayBars[barOneIdx].style;
-                const color = PRIMARY_COLOR;
-                setTimeout(() => {
-                    barOneStyle.backgroundColor = color;
-                }, i * ANIMATION_SPEED_MS);
-            }
-            else if(animations[i][0] === 'key-on'){
-                const [message, barOneIdx] = animations[i];
-                const barOneStyle = arrayBars[barOneIdx].style;
-                const color = 'DarkSlateBlue';
-                setTimeout(() => {
-                    barOneStyle.backgroundColor = color;
-                }, i * ANIMATION_SPEED_MS);
-            }
-            else if(animations[i][0] === 'key-off'){
-                const [message, barOneIdx] = animations[i];
-                const barOneStyle = arrayBars[barOneIdx].style;
-                const color = 'PRIMARY_COLOR';
-                setTimeout(() => {
-                    barOneStyle.backgroundColor = color;
-                }, i * ANIMATION_SPEED_MS);
-            }
-            else{
-                setTimeout(() => {
-                    const [barOneIdx, newHeight, barTwoIdx, newHeight2] = animations[i];
-                    const barOneStyle = arrayBars[barOneIdx].style;
-                    barOneStyle.height = `${newHeight}px`;
-                    const barTwoStyle = arrayBars[barTwoIdx].style;
-                    barTwoStyle.height = `${newHeight2}px`;
-                }, i * ANIMATION_SPEED_MS);
-            }
+                
         }
     }
 
@@ -249,7 +209,14 @@ export default class SortingVisualizer extends React.Component{
             }
             const javaScriptSortedArray = array.slice().sort((a, b) => a - b);
             let testArray = array.slice();
-            quickSort(testArray, 0, testArray.length-1);
+            //quickSort(testArray, 0, testArray.length-1);
+            for (let i = 1; i < testArray.length; i++){ 
+                let j = i-1; 
+                while(testArray[i] < testArray[j] && j > 0){
+                    swap(testArray, i, j);
+                    j--;
+                }
+            }
 
             console.log(arraysAreEqual(javaScriptSortedArray, testArray));
           }
