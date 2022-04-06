@@ -8,16 +8,16 @@ import {getSelectionSortAnimations} from '../SortingAlgorithms/selectionSort.js'
 import './SortingVisualizer.css';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 5;
+const ANIMATION_SPEED_MS = 1;
 
 // Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 141;
+const NUMBER_OF_ARRAY_BARS = 240;
 
 // This is the main color of the array bars.
-const PRIMARY_COLOR = 'darkturquoise';
+const PRIMARY_COLOR = 'springgreen';
 
 // This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = 'crimson';
+const SECONDARY_COLOR = 'red';
 
 export default class SortingVisualizer extends React.Component{
     constructor(props) {
@@ -166,15 +166,39 @@ export default class SortingVisualizer extends React.Component{
         }
     }
 
-    insertionSort(){//WIP
+    insertionSort(){
         const animations = getInsertionSortAnimations(this.state.array);
         for (let i = 0; i < animations.length; i++){
             const arrayBars = document.getElementsByClassName('array-bar');
-                
+            if(animations[i][0] === 'color-on'){
+                const [message, barOneIdx] = animations[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const color = SECONDARY_COLOR;
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = color;
+                }, i * ANIMATION_SPEED_MS);
+            }
+            else if(animations[i][0] === 'color-off'){
+                const [message, barOneIdx] = animations[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const color = PRIMARY_COLOR;
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = color;
+                }, i * ANIMATION_SPEED_MS);
+            }
+            else if (animations[i][0] === 'swap'){
+                setTimeout(() => {
+                    const [message, barOneIdx, newHeight, barTwoIdx, newHeight2] = animations[i]
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    barOneStyle.height = `${newHeight}px`;
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    barTwoStyle.height = `${newHeight2}px`;
+                }, i * ANIMATION_SPEED_MS);
+            }
         }
     }
 
-    selectionSort(){
+    selectionSort(){//Working right now, but something weird happens every now and then, you'll know it when you see it
         const animations = getSelectionSortAnimations(this.state.array);
         for (let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName('array-bar');
@@ -232,7 +256,7 @@ export default class SortingVisualizer extends React.Component{
                         className="array-bar" 
                         key={idx}
                         style={{
-                            backgroundColor: 'darkturquoise',
+                            backgroundColor: PRIMARY_COLOR,
                             height: `${value}px`,/*sets the heights of each bar so that it is <value> pixels tall */
                         }}></div>
                 ))}
@@ -243,8 +267,6 @@ export default class SortingVisualizer extends React.Component{
                 <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
                 <button onClick={() => this.insertionSort()}>Insertion Sort</button>
                 <button onClick={() => this.selectionSort()}>Selection Sort</button>
-                <button onClick={() => this.shellSort()}>Shell Sort</button>
-                <button onClick={() => this.TestSort()}>Test Sorting</button>
             </div>
         );
     }
@@ -299,23 +321,4 @@ function partition(arr, low, high) {
     }
     swap(arr, i + 1, high);
     return (i + 1);
-}
- 
-/* The main function that implements QuickSort
-          arr[] --> Array to be sorted,
-          low --> Starting index,
-          high --> Ending index
- */
-function quickSort(arr, low, high) {
-    if (low < high) {
- 
-        // pi is partitioning index, arr[p]
-        // is now at right place
-        let pi = partition(arr, low, high);
- 
-        // Separately sort elements before
-        // partition and after partition
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
 }
